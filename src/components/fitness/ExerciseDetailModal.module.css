@@ -1,0 +1,476 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: var(--space-4);
+}
+
+.container {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-200);
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-gray-100);
+  background: var(--color-gray-50);
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.categoryBadge {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.difficultyBadge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-gray-600);
+  background: var(--color-gray-200);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-gray-900);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: var(--color-gray-500);
+  margin-top: 4px;
+}
+
+.headerBtns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.favBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-400);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.favBtn:hover {
+  background: #fef2f2;
+  color: #ef4444;
+  border-color: #fecaca;
+}
+
+.favBtnActive {
+  background: #fef2f2;
+  color: #ef4444;
+  border-color: #fecaca;
+}
+
+.closeBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-400);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.closeBtn:hover {
+  background: var(--color-gray-200);
+  color: var(--color-gray-700);
+}
+
+.body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* YouTube Video Container */
+.videoContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.videoIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.videoPlaceholder {
+  height: 180px;
+  background: var(--color-gray-100);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--color-gray-400);
+  font-size: 13px;
+  font-weight: 500;
+  border: 2px dashed var(--color-gray-200);
+}
+
+/* Anatomy & Parameters */
+.anatomyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.anatomyCard {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.anatomyLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.anatomyValuePrimary {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.anatomyValueSecondary {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-gray-700);
+}
+
+.anatomyValue {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-gray-800);
+}
+
+.recBox {
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6d28d9;
+  text-transform: uppercase;
+}
+
+.recVal {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4c1d95;
+}
+
+/* Instructions */
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionHeading {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-gray-900);
+  margin: 0;
+}
+
+.instructionList {
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.instructionItem {
+  font-size: 13px;
+  color: var(--color-gray-700);
+  line-height: 1.5;
+}
+
+/* Form Tips & Mistakes */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tipBox {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.tipHeadGood {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.mistakeBox {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.tipHeadMistake {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.bulletList {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  color: var(--color-gray-700);
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tipText {
+  font-size: 12px;
+  color: var(--color-gray-700);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.beginnerTipBox {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.beginnerTipHead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #d97706;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.beginnerTipText {
+  font-size: 12px;
+  color: #78350f;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Related Exercises */
+.relatedSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.relatedHeading {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-gray-600);
+  text-transform: uppercase;
+}
+
+.relatedPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.relatedPillBtn {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.relatedPillBtn:hover {
+  background: var(--color-primary-bg);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.relatedPillBtn span:first-child {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-gray-900);
+}
+
+.relatedPillBtn:hover span:first-child {
+  color: var(--color-primary);
+}
+
+.relatedPillSub {
+  font-size: 10px;
+  color: var(--color-gray-500);
+}
+
+/* Footer */
+.footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--color-gray-100);
+  background: var(--color-gray-50);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btnSecondary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-gray-700);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnSecondary:hover {
+  background: var(--color-gray-100);
+}
+
+.btnFavoriteActive {
+  color: #ef4444;
+  border-color: #fca5a5;
+  background: #fff5f5;
+}
+
+.btnPrimary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-white);
+  background: var(--color-primary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnPrimary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}

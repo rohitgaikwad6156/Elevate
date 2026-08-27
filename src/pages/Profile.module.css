@@ -1,0 +1,728 @@
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.headerWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+  gap: var(--space-4);
+}
+
+.headerInfo {
+  flex: 1;
+}
+
+.pageTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  margin-bottom: 2px;
+}
+
+.pageDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  color: var(--color-gray-700);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btnSecondary:hover {
+  background: var(--color-gray-50);
+}
+
+.iconBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-600);
+  cursor: pointer;
+}
+
+/* ── Navigation Tabs ── */
+.navTabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-gray-200);
+  margin-bottom: var(--space-5);
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-500);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.tabBtn:hover {
+  color: var(--color-gray-900);
+  background: var(--color-gray-100);
+}
+
+.tabBtnActive {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  border-bottom-color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+/* ── Master Profile Hero Card ── */
+.heroCard {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: grid;
+  grid-template-columns: 1.15fr 1.85fr;
+  gap: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-4);
+}
+
+/* Left Hero Info */
+.heroLeft {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 3px solid var(--color-primary);
+}
+
+.cameraBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--color-gray-800);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-white);
+  cursor: pointer;
+}
+
+.heroIdentity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.userName {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.userRoleTitle {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bioQuote {
+  font-size: 11px;
+  color: var(--color-gray-600);
+  line-height: var(--line-height-normal);
+  margin: 4px 0;
+}
+
+.metaTagsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 10px;
+  color: var(--color-gray-500);
+}
+
+/* Right Hero Stats */
+.heroRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.heroMetricsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+.heroMetricBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-gray-100);
+}
+
+.metricTextCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.metricLabel {
+  font-size: 9px;
+  color: var(--color-gray-500);
+}
+
+.metricVal {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  line-height: 1.2;
+}
+
+.metricSub {
+  font-size: 9px;
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+/* Level Progress Bar in Hero */
+.heroLevelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--color-gray-50);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-gray-200);
+}
+
+.medalHexMini {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.heroLevelBarCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.levelTitleRowHero {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.heroBarTrack {
+  height: 6px;
+  background: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.heroBarFill {
+  height: 100%;
+  background: #8b5cf6;
+  border-radius: var(--radius-full);
+}
+
+/* ── Common Card Styles ── */
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.cardTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.linkAction {
+  font-size: 11px;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.linkAction:hover {
+  text-decoration: underline;
+}
+
+/* ── 3-Column Grid Rows ── */
+.grid3Col {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+/* ── Card 1: My Top Skills ── */
+.skillsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.skillItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.skillMetaRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.skillLabelRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-gray-800);
+  font-weight: 500;
+}
+
+.skillScore {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.skillTrack {
+  height: 6px;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.skillFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+/* ── Card 2: My Goals ── */
+.goalsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.goalItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+}
+
+.goalLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.goalIconBox {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.goalTextCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.goalTitle {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.goalMetaSub {
+  font-size: 9px;
+  color: var(--color-gray-500);
+}
+
+.goalRingMini {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ringSvgMini {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ringNumMini {
+  position: absolute;
+  font-size: 8px;
+  font-weight: bold;
+  color: var(--color-gray-900);
+}
+
+.btnAddGoalFull {
+  width: 100%;
+  padding: var(--space-2);
+  border: 1px dashed var(--color-primary);
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  margin-top: auto;
+}
+
+/* ── Card 3: Recent Achievements ── */
+.recentList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.recentItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+}
+
+.recentLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.recentIconBox {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.recentTextCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.recentTitle {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.recentDesc {
+  font-size: 9px;
+  color: var(--color-gray-500);
+}
+
+.recentRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.recentXp {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-warning);
+}
+
+.recentDate {
+  font-size: 8px;
+  color: var(--color-gray-400);
+}
+
+.btnPrimaryFull {
+  width: 100%;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  margin-top: auto;
+  border: none;
+  text-align: center;
+}
+
+/* ── Bottom Row Cards ── */
+.growthIdentityList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.identityRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.identityLabel {
+  color: var(--color-gray-500);
+}
+
+.identityVal {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.identityValDark {
+  color: var(--color-gray-900);
+  font-weight: 500;
+}
+
+.coachStatusBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-primary-bg);
+  border: 1px solid var(--color-primary-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  font-size: 10px;
+  color: var(--color-primary-dark);
+  margin-top: auto;
+}
+
+/* Learning Preferences & Showcase */
+.learningPrefsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.prefChip {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2);
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  font-size: 9px;
+}
+
+.prefLabel {
+  color: var(--color-gray-500);
+}
+
+.prefVal {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.showcaseBadgesRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+.showcaseBadgeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-2);
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+}
+
+.showcaseTitle {
+  font-size: 9px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  margin-top: 2px;
+}
+
+.showcaseSub {
+  font-size: 8px;
+  color: var(--color-gray-500);
+}
+
+/* ── Quick Settings Strip ── */
+.quickSettingsStrip {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-3);
+  box-shadow: var(--shadow-sm);
+}
+
+.quickSettingItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quickSettingItem:hover {
+  background: var(--color-gray-50);
+}
+
+.qsTextCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.qsLabel {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.qsSub {
+  font-size: 9px;
+  color: var(--color-gray-500);
+}
+
+/* ── Responsive Breakpoints ── */
+@media (max-width: 1100px) {
+  .heroCard {
+    grid-template-columns: 1fr;
+  }
+
+  .grid3Col {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .quickSettingsStrip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .headerWrapper {
+    flex-direction: column;
+  }
+
+  .grid3Col {
+    grid-template-columns: 1fr;
+  }
+
+  .quickSettingsStrip {
+    grid-template-columns: 1fr 1fr;
+  }
+}

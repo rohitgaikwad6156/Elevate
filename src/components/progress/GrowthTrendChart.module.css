@@ -1,0 +1,139 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.rangeTabs {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+  background: var(--color-gray-100);
+  padding: 2px;
+  border-radius: var(--radius-full);
+  align-self: flex-end;
+}
+
+.rangeBtn {
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-600);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.rangeActive {
+  background: var(--color-white);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  box-shadow: var(--shadow-sm);
+}
+
+.svgWrapper {
+  width: 100%;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.gridLine {
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 1;
+}
+
+:global(:not(.dark)) .gridLine {
+  stroke: rgba(15, 23, 42, 0.06);
+}
+
+.yAxisLabel {
+  font-size: 8px;
+  fill: #64748b;
+}
+
+.xAxisLabel {
+  font-size: 9px;
+  fill: #94a3b8;
+}
+
+:global(:not(.dark)) .xAxisLabel {
+  fill: #64748b;
+}
+
+.lineTarget {
+  stroke: #10b981;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  opacity: 0.7;
+}
+
+.lineLast {
+  stroke: #06b6d4;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  opacity: 0.8;
+}
+
+.lineCurrent {
+  stroke: #8b5cf6;
+  stroke-width: 2.5;
+}
+
+.dotCurrent {
+  fill: #8b5cf6;
+  stroke: #ffffff;
+  stroke-width: 1.5;
+}
+
+.badgeRect {
+  fill: #8b5cf6;
+}
+
+.badgeText {
+  fill: #ffffff;
+  font-size: 9px;
+  font-weight: bold;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  font-size: 11px;
+  color: var(--color-gray-500);
+  margin-top: 2px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendLine {
+  width: 14px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.lineCurrentSample {
+  background: #8b5cf6;
+}
+
+.lineLastSample {
+  background: #06b6d4;
+  border-top: 1px dashed #06b6d4;
+}
+
+.lineTargetSample {
+  background: #10b981;
+  border-top: 1px dashed #10b981;
+}

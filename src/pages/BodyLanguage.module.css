@@ -1,0 +1,841 @@
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── 1. Master Header ── */
+.headerWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  gap: var(--space-4);
+}
+
+.headerInfo {
+  flex: 1;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+
+.pageTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.levelBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 3px var(--space-3);
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.3px;
+}
+
+.pageDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  line-height: var(--line-height-normal);
+}
+
+.levelProgressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+}
+
+.levelProgressBar {
+  width: 140px;
+  height: 6px;
+  background: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.levelProgressFill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  white-space: nowrap;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+
+.btnPrimary:hover {
+  background: var(--color-primary-dark);
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  color: var(--color-gray-700);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.btnSecondary:hover {
+  background: var(--color-gray-50);
+}
+
+/* ── Navigation Tabs ── */
+.navTabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-gray-200);
+  margin-bottom: var(--space-6);
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-500);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.tabBtn:hover {
+  color: var(--color-gray-900);
+  background: var(--color-gray-100);
+}
+
+.tabBtnActive {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  border-bottom-color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+/* ── Score & Metric Cards ── */
+.scoreRow {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.scoreHeroCard {
+  background: linear-gradient(135deg, var(--color-primary-bg), var(--color-white));
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.scoreHeroCard:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.scoreBigNum {
+  font-size: 3.2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.scoreSubLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+  margin-top: 2px;
+}
+
+.scoreTrendBadge {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+  background: var(--color-success-bg);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin: var(--space-2) 0 var(--space-1);
+}
+
+.scoreCalcHint {
+  font-size: 10px;
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.perfGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-2);
+}
+
+.perfCard {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: all var(--transition-fast);
+}
+
+.perfCard:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.perfLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}
+
+.perfScore {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.perfBarTrack {
+  height: 4px;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin: 4px 0 2px;
+}
+
+.perfBarFill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+.perfTrend {
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-success);
+}
+
+/* ── Section Cards ── */
+.section {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sectionIcon {
+  color: var(--color-primary);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-900);
+}
+
+.sectionSubtitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  margin-top: 2px;
+}
+
+.sectionBadge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-full);
+}
+
+/* ── Layout Grids ── */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.threeCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.fullRow {
+  margin-bottom: var(--space-6);
+}
+
+/* ── AI Presence Coach Card ── */
+.aiCoachCard {
+  background: linear-gradient(135deg, var(--color-primary-bg), var(--color-white));
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.aiCoachTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.aiCoachQuote {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-800);
+  line-height: var(--line-height-relaxed);
+  background: rgba(255, 255, 255, 0.8);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
+}
+
+.whyMattersBox {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  line-height: var(--line-height-normal);
+}
+
+/* ── Quick Practice Drills Grid ── */
+.quickDrillsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-3);
+}
+
+.drillCard {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  transition: all var(--transition-fast);
+}
+
+.drillCard:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.drillIconBox {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drillTitle {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.drillDesc {
+  font-size: 10px;
+  color: var(--color-gray-500);
+  line-height: 1.3;
+  flex: 1;
+}
+
+.drillMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--color-gray-400);
+}
+
+/* ── Camera Studio Workspace ── */
+.workspaceCard {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.formLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+}
+
+.chipGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.chipBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  background: var(--color-gray-50);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.chipBtn:hover {
+  background: var(--color-gray-100);
+}
+
+.chipBtnActive {
+  background: var(--color-primary-bg);
+  border-color: var(--color-primary);
+}
+
+.chipTitle {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-900);
+}
+
+.chipDesc {
+  font-size: 10px;
+  color: var(--color-gray-500);
+  margin-top: 1px;
+}
+
+.durationRow {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.durationBtn {
+  flex: 1;
+  padding: var(--space-2);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  background: var(--color-gray-50);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.durationBtnActive {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+/* ── Posture & Eye Contact View ── */
+.postureGuideBox {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  border: 1px solid var(--color-gray-200);
+}
+
+.guideCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.guideColTitle {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-800);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.guideItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-700);
+}
+
+/* ── Gestures Good/Improve/Avoid ── */
+.gestureRuleGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.ruleCard {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.ruleHeadGood {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+}
+
+.ruleHeadImprove {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-warning);
+}
+
+.ruleHeadAvoid {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-error);
+}
+
+/* ── Structured Drills Library Table ── */
+.drillList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.drillItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  gap: var(--space-3);
+}
+
+.drillInfo {
+  flex: 1;
+}
+
+.drillName {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-900);
+}
+
+.drillCategory {
+  font-size: 11px;
+  color: var(--color-gray-400);
+}
+
+.drillInstructions {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  margin-top: 2px;
+}
+
+/* ── Weakness Cards ── */
+.weaknessList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.weaknessCard {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.weaknessTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weaknessTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.weaknessScore {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+}
+
+.weaknessWhy {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+}
+
+.weaknessFix {
+  font-size: 11px;
+  color: var(--color-primary-dark);
+  background: var(--color-primary-bg);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+/* ── Daily Challenge ── */
+.challengeCard {
+  background: linear-gradient(135deg, #fffbeb, var(--color-white));
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.challengeTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.challengeDesc {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  line-height: var(--line-height-normal);
+}
+
+/* ── Recent Sessions ── */
+.sessionList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sessionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sessionItem:hover {
+  background: var(--color-gray-50);
+  border-color: var(--color-primary);
+}
+
+.sessionInfo {
+  flex: 1;
+}
+
+.sessionTopic {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-900);
+}
+
+.sessionMeta {
+  font-size: 11px;
+  color: var(--color-gray-400);
+  margin-top: 2px;
+}
+
+.sessionScoreBox {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.sessionScore {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.sessionImprovement {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+}
+
+/* ── Achievements Row ── */
+.achievementsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2);
+}
+
+.achievementCard {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+
+.achLocked {
+  opacity: 0.5;
+  background: var(--color-gray-50);
+}
+
+.achIcon {
+  font-size: 1.5rem;
+  margin-bottom: 2px;
+}
+
+.achTitle {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.achDesc {
+  font-size: 9px;
+  color: var(--color-gray-500);
+}
+
+/* ── Responsive Breakpoints ── */
+@media (max-width: 1024px) {
+  .scoreRow {
+    grid-template-columns: 1fr;
+  }
+
+  .perfGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .quickDrillsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+
+  .threeCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .headerWrapper {
+    flex-direction: column;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .perfGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quickDrillsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .chipGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .postureGuideBox {
+    grid-template-columns: 1fr;
+  }
+
+  .gestureRuleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .achievementsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

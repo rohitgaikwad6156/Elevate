@@ -1,0 +1,204 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: var(--space-4);
+}
+
+.container {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 640px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-200);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-gray-100);
+  background: var(--color-gray-50);
+}
+
+.title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  margin-top: 2px;
+}
+
+.closeBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-400);
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  background: var(--color-gray-200);
+}
+
+.body {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.scoreSummaryCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--color-primary-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  border-left: 4px solid var(--color-primary);
+}
+
+.scoreGauge {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.scoreLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-dark);
+}
+
+.scoreNote {
+  font-size: 11px;
+  color: var(--color-gray-500);
+  margin-top: 2px;
+}
+
+.sectionHeading {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-gray-700);
+}
+
+.breakdownGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.skillItem {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.skillTop {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+}
+
+.skillName {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-900);
+}
+
+.skillWeight {
+  font-size: 10px;
+  color: var(--color-gray-400);
+}
+
+.barTrack {
+  height: 4px;
+  background: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin: 2px 0;
+}
+
+.barFill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
+.skillBottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--color-gray-500);
+}
+
+.skillScoreVal {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-800);
+}
+
+.skillStatus {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.ethicsDisclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  background: #f8fafc;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  font-size: 11px;
+  color: var(--color-gray-600);
+  line-height: var(--line-height-normal);
+}
+
+.shieldIcon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--color-gray-100);
+  background: var(--color-gray-50);
+}
+
+.btnPrimary {
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}

@@ -1,0 +1,648 @@
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ── Header Row ── */
+.headerWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+  gap: var(--space-4);
+}
+
+.headerInfo {
+  flex: 1;
+}
+
+.pageTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  margin-bottom: 2px;
+}
+
+.pageDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.datePickerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  cursor: pointer;
+}
+
+.iconActionBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-600);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.iconActionBtn:hover {
+  background: var(--color-gray-50);
+}
+
+/* ── Navigation Tabs ── */
+.navTabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-gray-200);
+  margin-bottom: var(--space-5);
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-500);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.tabBtn:hover {
+  color: var(--color-gray-900);
+  background: var(--color-gray-100);
+}
+
+.tabBtnActive {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  border-bottom-color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+/* ── 3-Column Grid Rows ── */
+.grid3Col {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.cardTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.linkAction {
+  font-size: 11px;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.linkAction:hover {
+  text-decoration: underline;
+}
+
+/* ── Top Row Card 1: Overall Score ── */
+.scoreRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.scoreValCol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scoreHuge {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.scoreMax {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-400);
+  font-weight: var(--font-weight-normal);
+}
+
+.scoreTrendPill {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-success);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: var(--color-success);
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.ringGauge {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ringSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ringCenterText {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ringNum {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+  line-height: 1;
+}
+
+.ringSub {
+  font-size: 9px;
+  color: var(--color-gray-500);
+}
+
+.scoreDesc {
+  font-size: 11px;
+  color: var(--color-gray-500);
+  line-height: var(--line-height-normal);
+  margin-top: auto;
+  border-top: 1px solid var(--color-gray-100);
+  padding-top: var(--space-2);
+}
+
+/* ── Top Row Card 2: Growth Score Breakdown ── */
+.breakdownGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.breakdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  background: var(--color-gray-50);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.breakdownItem:hover {
+  background: var(--color-primary-bg);
+  border-color: var(--color-primary-light);
+}
+
+.itemIconBox {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemLabel {
+  font-size: 10px;
+  color: var(--color-gray-500);
+  white-space: nowrap;
+}
+
+.itemScoreRow {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.itemScore {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.itemTrend {
+  font-size: 9px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+}
+
+/* ── Middle Row Card 2: AI Growth Insights ── */
+.aiInsightBadge {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.insightNarrative {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-700);
+  line-height: var(--line-height-normal);
+  margin-bottom: var(--space-3);
+}
+
+.insightPointsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.insightPoint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+}
+
+.pointLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pointVal {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+}
+
+.pointValWarn {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-warning);
+}
+
+.btnPrimaryFull {
+  width: 100%;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  margin-top: auto;
+  border: none;
+  text-align: center;
+}
+
+.btnPrimaryFull:hover {
+  background: var(--color-primary-dark);
+}
+
+/* ── Middle Row Card 3: Growth Story ── */
+.quoteBox {
+  background: linear-gradient(135deg, var(--color-primary-bg), var(--color-white));
+  border: 1px solid var(--color-primary-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-800);
+  line-height: var(--line-height-relaxed);
+  font-style: italic;
+  margin-bottom: var(--space-3);
+}
+
+.coachFooter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
+.coachAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coachNameCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.coachName {
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.coachSub {
+  font-size: 9px;
+  color: var(--color-primary);
+}
+
+/* ── Bottom Row Card 1: Strengths ── */
+.strengthList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.strengthItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-sm);
+}
+
+.strengthLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.strengthTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.strengthRank {
+  font-size: 13px;
+}
+
+.strengthTitle {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.strengthReason {
+  font-size: 10px;
+  color: var(--color-gray-500);
+}
+
+.strengthScore {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+/* ── Bottom Row Card 2: Opportunities ── */
+.oppList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.oppItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.oppItem:hover {
+  background: var(--color-primary-bg);
+}
+
+.oppLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.oppTitleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.oppTitle {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.oppScore {
+  font-size: 10px;
+  color: var(--color-gray-500);
+}
+
+.oppSub {
+  font-size: 10px;
+  color: var(--color-primary);
+}
+
+/* ── Bottom Row Card 3: What Should You Do Next? ── */
+.nextStepsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.nextStepItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.nextStepItem:hover {
+  background: var(--color-primary-bg);
+}
+
+.nextStepLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stepNumBox {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.stepAction {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+.stepTitle {
+  font-size: 10px;
+  color: var(--color-gray-500);
+}
+
+.stepDur {
+  font-size: 10px;
+  color: var(--color-gray-400);
+}
+
+/* ── Bottom Telemetry Strip ── */
+.telemetryStrip {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+}
+
+.telemetryItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.telemetryIcon {
+  color: var(--color-primary);
+}
+
+.telemetryTextCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.telemetryLabel {
+  font-size: 9px;
+  color: var(--color-gray-500);
+}
+
+.telemetryVal {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
+
+/* ── Responsive Breakpoints ── */
+@media (max-width: 1100px) {
+  .grid3Col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid3Col {
+    grid-template-columns: 1fr;
+  }
+
+  .headerWrapper {
+    flex-direction: column;
+  }
+
+  .telemetryStrip {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+}

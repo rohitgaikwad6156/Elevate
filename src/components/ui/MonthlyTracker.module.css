@@ -1,0 +1,285 @@
+/* src/components/ui/MonthlyTracker.module.css */
+
+.trackerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Month Navigation Header ── */
+.navHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-gray-100, #f3f4f6);
+}
+
+.navControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm, 6px);
+  background: var(--color-gray-50, #f9fafb);
+  border: 1px solid var(--color-gray-200, #e5e7eb);
+  color: var(--color-gray-700, #374151);
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.navBtn:hover {
+  background: var(--color-primary-bg, #eef2ff);
+  color: var(--color-primary, #6366f1);
+  border-color: var(--color-primary-light, #c7d2fe);
+}
+
+.monthTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-gray-900, #111827);
+  min-width: 140px;
+  text-align: center;
+}
+
+.todayJumpBtn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-primary, #6366f1);
+  background: var(--color-primary-bg, #eef2ff);
+  border: 1px solid var(--color-primary-light, #c7d2fe);
+  border-radius: var(--radius-full, 9999px);
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.todayJumpBtn:hover {
+  background: #e0e7ff;
+}
+
+.activeTodayBtn {
+  background: var(--color-primary, #6366f1);
+  color: #ffffff;
+  border-color: var(--color-primary, #6366f1);
+}
+
+
+/* ── LeetCode Stats Ribbon ── */
+.statsRibbon {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: var(--color-gray-50, #f9fafb);
+  padding: 8px 10px;
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--color-gray-100, #f3f4f6);
+}
+
+.ribbonItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.ribbonLabel {
+  color: var(--color-gray-500, #6b7280);
+}
+
+.ribbonValue {
+  font-weight: 700;
+  color: var(--color-gray-900, #111827);
+}
+
+/* ── Weekday Labels ── */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.weekday {
+  text-align: center;
+  font-size: 11px;
+  color: var(--color-gray-400, #9ca3af);
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 0;
+}
+
+/* ── Calendar Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.day {
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm, 6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-gray-600, #4b5563);
+  background: var(--color-gray-50, #f9fafb);
+  border: 1px solid var(--color-gray-100, #f3f4f6);
+  transition: all 180ms ease;
+  cursor: pointer;
+}
+
+.day:hover:not(.dayEmpty) {
+  transform: scale(1.08);
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.dayEmpty {
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+.dayPast {
+  background: var(--color-gray-50, #f9fafb);
+  color: var(--color-gray-400, #9ca3af);
+}
+
+/* ── Heatmap Green Shades ── */
+
+/* 1% to 49% -> Light Mint Green */
+.dayLight {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #a7f3d0;
+  font-weight: 600;
+}
+
+/* 50% to 65% -> Medium Green */
+.dayMedium {
+  background: #6ee7b7;
+  color: #064e3b;
+  border-color: #34d399;
+  font-weight: 700;
+}
+
+/* 66% to 99% -> High Green */
+.dayHigh {
+  background: #34d399;
+  color: #022c22;
+  border-color: #10b981;
+  font-weight: 800;
+}
+
+/* 100% (All Goals Completed) -> Solid Vibrant Emerald */
+.dayFull {
+  background: #10b981;
+  border-color: #059669;
+  color: #ffffff;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.45);
+}
+
+/* 0% Today */
+.dayToday {
+  background: var(--color-primary-bg, #eef2ff);
+  border: 2px solid var(--color-primary, #6366f1);
+  color: var(--color-primary, #6366f1);
+  font-weight: 800;
+}
+
+.todayIndicator {
+  border: 2px solid #6366f1 !important;
+  font-weight: 800;
+}
+
+.dayFuture {
+  color: var(--color-gray-300, #d1d5db);
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+
+/* ── Selected Day Active Outline ── */
+.daySelected {
+  outline: 3px solid #f59e0b;
+  outline-offset: 1px;
+  transform: scale(1.12);
+  z-index: 5;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.5) !important;
+}
+
+
+/* ── Day Inspector Popup ── */
+.dayInspector {
+  background: var(--color-primary-bg, #eef2ff);
+  border: 1px solid var(--color-primary-light, #c7d2fe);
+  border-radius: var(--radius-md, 8px);
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+}
+
+.inspectorDate {
+  font-weight: 700;
+  color: var(--color-primary, #6366f1);
+}
+
+.inspectorDetail {
+  color: var(--color-gray-700, #374151);
+}
+
+/* ── Legend ── */
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-gray-100, #f3f4f6);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--color-gray-500, #6b7280);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.legendFull {
+  background: #10b981;
+}
+
+.legendMedium {
+  background: #6ee7b7;
+}
+
+.legendLight {
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+}
+
+.legendToday {
+  background: var(--color-primary-bg, #eef2ff);
+  border: 1.5px solid var(--color-primary, #6366f1);
+}

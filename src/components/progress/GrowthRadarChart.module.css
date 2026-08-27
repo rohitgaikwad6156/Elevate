@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.svg {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  overflow: visible;
+}
+
+.gridRing {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+}
+
+:global(:not(.dark)) .gridRing {
+  stroke: rgba(15, 23, 42, 0.1);
+}
+
+.axisSpoke {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+}
+
+:global(:not(.dark)) .axisSpoke {
+  stroke: rgba(15, 23, 42, 0.1);
+}
+
+.polyTarget {
+  fill: none;
+  stroke: #10b981;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  opacity: 0.7;
+}
+
+.polyLastMonth {
+  fill: none;
+  stroke: #06b6d4;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  opacity: 0.8;
+}
+
+.polyCurrent {
+  fill: rgba(139, 92, 246, 0.25);
+  stroke: #8b5cf6;
+  stroke-width: 2;
+}
+
+.pointCurrent {
+  fill: #8b5cf6;
+  stroke: #ffffff;
+  stroke-width: 1.5;
+}
+
+.axisLabel {
+  font-size: 9px;
+  font-weight: 500;
+  fill: #94a3b8;
+}
+
+:global(:not(.dark)) .axisLabel {
+  fill: #64748b;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+  font-size: 11px;
+  color: var(--color-gray-500);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.dotCurrent {
+  background: #8b5cf6;
+}
+
+.dotLast {
+  background: #06b6d4;
+}
+
+.dotTarget {
+  background: #10b981;
+}

@@ -1,0 +1,56 @@
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.iconWrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconWrapper.primary {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+.iconWrapper.success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.iconWrapper.warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.iconWrapper.info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-1);
+}
+
+.value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-900);
+}
