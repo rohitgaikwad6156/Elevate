@@ -3,6 +3,7 @@ import {
   deleteOwnedDocument,
   getOwnedDocument,
   listOwnedDocuments,
+  stripProtectedFields,
   updateOwnedDocument,
 } from './databaseService';
 
@@ -11,7 +12,9 @@ const COLLECTION = 'habits';
 export function createHabit(habit = {}) {
   if (!habit.title?.trim()) throw new Error('Habit title is required.');
 
+  const safeHabit = stripProtectedFields(habit);
   return createOwnedDocument(COLLECTION, {
+    ...safeHabit,
     title: habit.title.trim(),
     category: habit.category || 'General',
     frequency: habit.frequency || 'daily',
@@ -19,7 +22,6 @@ export function createHabit(habit = {}) {
     streak: habit.streak ?? 0,
     active: habit.active !== false,
     completionDates: Array.isArray(habit.completionDates) ? habit.completionDates : [],
-    ...habit,
   });
 }
 
