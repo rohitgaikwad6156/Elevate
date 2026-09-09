@@ -24,10 +24,9 @@ service cloud.firestore {
         && userId == request.auth.uid
         && request.resource.data.userId == request.auth.uid;
 
-      allow get, delete: if signedIn()
-        && userId == request.auth.uid
-        && resource.data.userId == request.auth.uid;
-
+      // Path ownership is enough here and also allows a brand-new user to
+      // check whether users/{theirUid} exists before creating it.
+      allow get, delete: if signedIn() && userId == request.auth.uid;
       allow list: if false;
 
       allow update: if signedIn()
