@@ -3,10 +3,9 @@ import {
   TrendingUp,
   Flame,
   CheckCircle2,
-  Sparkles,
   ArrowRight,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import StatCard from '../components/ui/StatCard';
 import GoalCard from '../components/ui/GoalCard';
 import PriorityCard from '../components/ui/PriorityCard';
@@ -19,13 +18,14 @@ import { quickActions } from '../data/dashboardData';
 import styles from './Dashboard.module.css';
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { profile, goals } = useProfile();
 
   const firstName = user?.displayName ? user.displayName.split(' ')[0] : (profile?.name || 'there');
   const growthScore = profile?.overallGrowthScore || 0;
   const currentStreak = profile?.currentStreak || 0;
-  const completedGoals = goals.filter((g) => g.progress === 100).length;
+  const completedGoals = goals.filter((g) => g.progress === 100 || g.completed).length;
 
   return (
     <div className={styles.dashboard}>
@@ -35,7 +35,7 @@ export default function Dashboard() {
           Welcome, {firstName}! 👋
         </h2>
         <p className={styles.welcomeSub}>
-          Here's your personal growth overview for today.
+          Plan your day, complete your priorities, and keep improving your English.
         </p>
       </div>
 
@@ -67,12 +67,12 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Two Column: Goals + Starter Actions */}
+      {/* Two Column: Goals + Core Focus */}
       <div className={styles.twoCol}>
         <div className={styles.section}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <h3 className={styles.sectionTitle} style={{ margin: 0 }}>My Active Goals</h3>
-            <Link to="/profile" style={{ fontSize: '12px', color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 600 }}>
+            <h3 className={styles.sectionTitle} style={{ margin: 0 }}>Daily Goals & Tasks</h3>
+            <Link to="/daily-goals" style={{ fontSize: '12px', color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 600 }}>
               + Manage
             </Link>
           </div>
@@ -89,12 +89,12 @@ export default function Dashboard() {
               gap: '8px'
             }}>
               <Target size={28} color="var(--color-primary)" style={{ opacity: 0.5 }} />
-              <strong style={{ fontSize: '13px', color: 'var(--color-gray-800)' }}>No goals set yet</strong>
+              <strong style={{ fontSize: '13px', color: 'var(--color-gray-800)' }}>No goals or tasks set yet</strong>
               <p style={{ fontSize: '11px', color: 'var(--color-gray-500)', margin: 0 }}>
-                Set your personal goals in the Profile tab to track your daily progress.
+                Add your first task, then let ELEVATE structure your day around it.
               </p>
               <Link
-                to="/profile"
+                to="/daily-goals"
                 style={{
                   marginTop: 6,
                   display: 'inline-flex',
@@ -109,7 +109,7 @@ export default function Dashboard() {
                   textDecoration: 'none'
                 }}
               >
-                Go to Profile <ArrowRight size={11} />
+                Open Daily Goals <ArrowRight size={11} />
               </Link>
             </div>
           ) : (
@@ -117,28 +117,28 @@ export default function Dashboard() {
               <GoalCard
                 key={goal.id}
                 title={goal.title}
-                category={goal.priority || 'Growth'}
-                completed={goal.progress === 100}
+                category={goal.priority || goal.category || 'Growth'}
+                completed={goal.progress === 100 || goal.completed}
               />
             ))
           )}
         </div>
 
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Starter Priorities</h3>
+          <h3 className={styles.sectionTitle}>Core Focus</h3>
           <PriorityCard
             priority="High"
-            task="Complete your profile details and set your first growth goal"
-            completed={Boolean(profile?.bio && goals.length > 0)}
+            task="Review today's goals and choose your most important tasks"
+            completed={goals.length > 0}
           />
           <PriorityCard
             priority="Medium"
-            task="Practice your first 5-minute Public Speaking or English drill"
-            completed={Boolean(profile?.totalXp && profile.totalXp > 0)}
+            task="Use AI Generate My Day to turn those tasks into a focused schedule"
+            completed={false}
           />
           <PriorityCard
             priority="Low"
-            task="Explore the Learning Hub courses & video modules"
+            task="Complete one focused English Coach practice block"
             completed={false}
           />
         </div>
@@ -150,16 +150,16 @@ export default function Dashboard() {
           score={growthScore}
           maxScore={100}
           label={profile?.overallGrowthStatus || 'Ready to Begin'}
-          description="Complete practice drills across speaking, English, and fitness modules to boost your Growth Score."
+          description="Your wider ELEVATE modules remain available, while your daily workflow now centers on goals, planning, and English practice."
         />
         <RecommendationCard
-          title="Personalized AI Recommendation"
+          title="Today's ELEVATE Focus"
           content={
             goals.length === 0
-              ? 'Welcome to ELEVATE! Start by choosing your target skill areas and configuring your AI coaching style.'
-              : `Focus on your goal "${goals[0]?.title}" today to build your practice streak!`
+              ? 'Start with Daily Goals & Tasks. Add what matters today, then generate a practical schedule around those priorities.'
+              : `You have ${goals.length} tracked goal${goals.length === 1 ? '' : 's'}. Generate your day now to turn them into a clear action plan.`
           }
-          tag="Smart Start"
+          tag="Core Flow"
         />
       </div>
 
@@ -180,9 +180,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Quick Actions */}
+      {/* Core Quick Actions */}
       <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>Quick Actions</h3>
+        <h3 className={styles.sectionTitle}>Core Actions</h3>
         <div className={styles.quickActionsGrid}>
           {quickActions.map((action) => (
             <QuickActionCard
@@ -190,6 +190,7 @@ export default function Dashboard() {
               label={action.label}
               icon={action.icon}
               color={action.color}
+              onClick={() => action.path && navigate(action.path)}
             />
           ))}
         </div>
