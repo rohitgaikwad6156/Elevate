@@ -90,11 +90,16 @@ export async function fetchProfileData(user) {
 
   // One-time compatibility migration from the old giant users/{uid}.goals array.
   // The authenticated Firebase user is used by the goal service; no caller-provided uid is trusted.
+  const hadLegacyGoalsField = Object.prototype.hasOwnProperty.call(userRecord || {}, 'goals');
+  const hadLegacyActivityField = Object.prototype.hasOwnProperty.call(userRecord || {}, 'activityHistory');
   const legacyGoals = Array.isArray(userRecord?.goals) ? userRecord.goals : [];
   const legacyActivityHistory = userRecord?.activityHistory || {};
 
   if (legacyGoals.length > 0) {
     await migrateLegacyGoals(legacyGoals);
+  }
+
+  if (hadLegacyGoalsField || hadLegacyActivityField) {
     await removeLegacyEmbeddedFields();
     userRecord = await getCurrentUserRecord();
   }
@@ -104,8 +109,8 @@ export async function fetchProfileData(user) {
   return {
     profile: userRecord?.profile || buildDefaultProfile(user),
     goals,
-    // Kept in memory for backwards-compatible charts during migration.
-    // Long-term activity should be derived from goal/task/session records, not embedded in users/{uid}.
+    // Kept in memory for backwards-compatible charts during the migration request.
+    // Long-term activity is derived from goal/task/session records instead of users/{uid}.
     activityHistory: legacyActivityHistory,
     aiSettings: userRecord?.aiSettings || defaultAiSettings,
     notifications: userRecord?.notifications || notificationSettingsData,
