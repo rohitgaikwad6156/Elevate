@@ -60,8 +60,18 @@ export async function saveScheduleForDate(date, schedule = {}) {
   );
 }
 
-export function updateSchedule(scheduleId, changes) {
-  return updateOwnedDocument(COLLECTION, scheduleId, normalizeSchedule({ ...changes, date: changes.date }));
+export function updateSchedule(scheduleId, changes = {}) {
+  const safeChanges = stripProtectedFields(changes);
+
+  if (safeChanges.tasks !== undefined && !Array.isArray(safeChanges.tasks)) {
+    throw new Error('Schedule tasks must be an array.');
+  }
+
+  if (safeChanges.generatedByAI !== undefined) {
+    safeChanges.generatedByAI = Boolean(safeChanges.generatedByAI);
+  }
+
+  return updateOwnedDocument(COLLECTION, scheduleId, safeChanges);
 }
 
 export function deleteSchedule(scheduleId) {
