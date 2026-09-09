@@ -1,6 +1,6 @@
 // src/hooks/useProfile.js
-// React hook that manages profile state synced with Firestore.
-// Uses the authenticated user's uid so each user has isolated data.
+// React compatibility hook for profile + goals.
+// Authentication identity comes from Firebase Auth; goals are stored as separate Firestore documents.
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,13 +8,23 @@ import { getLocalIsoDate } from '../lib/dateUtils';
 import {
   fetchProfileData,
   saveProfile,
-  saveGoals,
-  saveActivityHistory,
   saveAiSettings,
   saveNotifications,
   resetProfileToClean,
 } from '../lib/profileService';
+import {
+  createGoal as createGoalRecord,
+  updateGoal as updateGoalRecord,
+  deleteGoal as deleteGoalRecord,
+} from '../lib/database/goalService';
 
+function recordsEqual(a, b) {
+  try {
+    return JSON.stringify(a) === JSON.stringify(b);
+  } catch {
+    return false;
+  }
+}
 
 export function useProfile() {
   const { user } = useAuth();
@@ -29,12 +39,17 @@ export function useProfile() {
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
 
-  // ── Initial Load — re-runs whenever the logged-in user changes ──────────────
   useEffect(() => {
-    if (!uid) return;
+    if (!uid) {
+      setLoading(false);
+      return;
+    }
+
     let cancelled = false;
     setLoading(true);
-    fetchProfileData(uid, user)
+    setError(null);
+
+    fetchProfileData(user)
       .then((data) => {
         if (cancelled) return;
         setProfile(data.profile);
@@ -45,37 +60,42 @@ export function useProfile() {
       })
       .catch((err) => {
         if (cancelled) return;
-        console.error('Failed to load profile from Firestore:', err);
-        setError(err.message);
+        console.error('Failed to load ELEVATE user data:', err);
+        setError(err.message || 'Unable to load your data.');
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
+
     return () => { cancelled = true; };
   }, [uid, user]);
 
-  // ── Save Profile ────────────────────────────────────────────────────────────
   const updateProfile = useCallback(async (updatedProfile) => {
+    const previous = profile;
     setProfile(updatedProfile);
     setSaving(true);
+    setError(null);
+
     try {
-      await saveProfile(uid, updatedProfile);
+      await saveProfile(updatedProfile);
     } catch (err) {
+      setProfile(previous);
       console.error('Failed to save profile:', err);
-      setError(err.message);
+      setError(err.message || 'Unable to save your profile.');
+      throw err;
     } finally {
       setSaving(false);
     }
-  }, [uid]);
+  }, [profile]);
 
-  // ── Save Goals & LeetCode-style Monthly Activity ────────────────────────────
+  // Compatibility API: callers can still pass the complete goals array.
+  // Under the hood only created/changed/deleted goal documents are written.
   const updateGoals = useCallback(async (updatedGoals, customHistory = null) => {
-    setGoals(updatedGoals);
-    
-    // Automatically record today's activity entry
+    const previousGoals = goals;
+    const previousHistory = activityHistory;
+
     const todayStr = getLocalIsoDate();
     const total = updatedGoals.length;
-
     const completed = updatedGoals.filter((g) => g.completed || g.progress === 100).length;
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
 
@@ -90,81 +110,112 @@ export function useProfile() {
       },
     };
 
+    setGoals(updatedGoals);
     setActivityHistory(nextHistory);
     setSaving(true);
+    setError(null);
+
     try {
-      await saveGoals(uid, updatedGoals, nextHistory);
+      const previousById = new Map(
+        previousGoals.filter((goal) => goal.id).map((goal) => [String(goal.id), goal])
+      );
+      const nextById = new Map(
+        updatedGoals.filter((goal) => goal.id).map((goal) => [String(goal.id), goal])
+      );
+
+      const created = updatedGoals.filter(
+        (goal) => !goal.id || !previousById.has(String(goal.id))
+      );
+      const removed = previousGoals.filter(
+        (goal) => goal.id && !nextById.has(String(goal.id))
+      );
+      const changed = updatedGoals.filter((goal) => {
+        if (!goal.id) return false;
+        const previous = previousById.get(String(goal.id));
+        return previous && !recordsEqual(previous, goal);
+      });
+
+      await Promise.all([
+        ...created.map((goal) =>
+          createGoalRecord(goal, goal.id ? { id: String(goal.id) } : undefined)
+        ),
+        ...changed.map((goal) => updateGoalRecord(goal.id, goal)),
+        ...removed.map((goal) => deleteGoalRecord(goal.id)),
+      ]);
     } catch (err) {
+      setGoals(previousGoals);
+      setActivityHistory(previousHistory);
       console.error('Failed to save goals:', err);
-      setError(err.message);
+      setError(err.message || 'Unable to save your goals.');
+      throw err;
     } finally {
       setSaving(false);
     }
-  }, [uid, activityHistory]);
+  }, [goals, activityHistory]);
 
-  // ── Save Activity History Directly ──────────────────────────────────────────
+  // Activity history is now a derived UI summary rather than an ever-growing field in users/{uid}.
   const recordActivity = useCallback(async (dateStr, data) => {
-    const updated = {
-      ...activityHistory,
+    setActivityHistory((current) => ({
+      ...current,
       [dateStr]: data,
-    };
-    setActivityHistory(updated);
-    try {
-      await saveActivityHistory(uid, updated);
-    } catch (err) {
-      console.error('Failed to record activity:', err);
-    }
-  }, [uid, activityHistory]);
+    }));
+  }, []);
 
-  // ── Save AI Settings ────────────────────────────────────────────────────────
   const updateAiSettings = useCallback(async (updatedAi) => {
+    const previous = aiSettings;
     setAiSettings(updatedAi);
     setSaving(true);
+    setError(null);
+
     try {
-      await saveAiSettings(uid, updatedAi);
+      await saveAiSettings(updatedAi);
     } catch (err) {
+      setAiSettings(previous);
       console.error('Failed to save AI settings:', err);
-      setError(err.message);
+      setError(err.message || 'Unable to save AI settings.');
+      throw err;
     } finally {
       setSaving(false);
     }
-  }, [uid]);
+  }, [aiSettings]);
 
-  // ── Toggle Notification ─────────────────────────────────────────────────────
   const toggleNotification = useCallback(async (id) => {
+    const previous = notifications;
     const updated = notifications.map((n) =>
       n.id === id ? { ...n, enabled: !n.enabled } : n
     );
+
     setNotifications(updated);
     setSaving(true);
+    setError(null);
+
     try {
-      await saveNotifications(uid, updated);
+      await saveNotifications(updated);
     } catch (err) {
+      setNotifications(previous);
       console.error('Failed to save notifications:', err);
-      setError(err.message);
+      setError(err.message || 'Unable to save notification settings.');
+      throw err;
     } finally {
       setSaving(false);
     }
-  }, [uid, notifications]);
+  }, [notifications]);
 
-  // ── Add Goal ────────────────────────────────────────────────────────────────
   const addGoal = useCallback(async (newGoal) => {
-    const updated = [...goals, newGoal];
-    await updateGoals(updated);
+    await updateGoals([...goals, newGoal]);
   }, [goals, updateGoals]);
 
-  // ── Remove Goal ─────────────────────────────────────────────────────────────
   const removeGoal = useCallback(async (goalId) => {
-    const updated = goals.filter((g) => g.id !== goalId);
-    await updateGoals(updated);
+    await updateGoals(goals.filter((g) => g.id !== goalId));
   }, [goals, updateGoals]);
 
-  // ── Reset Profile to Clean Defaults ─────────────────────────────────────────
   const resetAllData = useCallback(async () => {
     if (!uid) return;
     setLoading(true);
+    setError(null);
+
     try {
-      const clean = await resetProfileToClean(uid, user);
+      const clean = await resetProfileToClean(user);
       setProfile(clean.profile);
       setGoals([]);
       setActivityHistory({});
@@ -172,7 +223,8 @@ export function useProfile() {
       setNotifications(clean.notifications);
     } catch (err) {
       console.error('Failed to reset all data:', err);
-      setError(err.message);
+      setError(err.message || 'Unable to reset your data.');
+      throw err;
     } finally {
       setLoading(false);
     }
