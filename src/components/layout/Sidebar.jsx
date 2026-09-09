@@ -2,6 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   Target,
+  Sparkles,
   MessageSquare,
   Mic,
   PersonStanding,
@@ -16,10 +17,14 @@ import {
 import styles from './Sidebar.module.css';
 
 const navItems = [
+  // Core ELEVATE experience
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/daily-goals', label: 'Daily Goals', icon: Target },
-  { divider: true },
+  { path: '/daily-goals', label: 'Daily Goals & Tasks', icon: Target },
+  { path: '/generate-my-day', label: 'AI Generate My Day', icon: Sparkles },
   { path: '/english-coach', label: 'English Coach', icon: MessageSquare },
+
+  // Existing growth modules — preserved and available
+  { divider: true },
   { path: '/public-speaking', label: 'Public Speaking', icon: Mic },
   { path: '/body-language', label: 'Body Language', icon: PersonStanding },
   { path: '/fitness', label: 'Fitness', icon: Dumbbell },
