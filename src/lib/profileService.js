@@ -1,22 +1,21 @@
 // src/lib/profileService.js
-// All Firestore read/write operations for profile data.
-// Each user's data is stored at users/{uid} — fully isolated.
-// New users start with a clean empty profile seeded from their account.
+// Compatibility layer for the existing Profile/Daily Goals UI.
+// User-level settings stay in users/{uid}; scalable activity data lives in separate collections.
 
-import {
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  serverTimestamp,
-} from 'firebase/firestore';
-import { db } from './firebase';
 import { notificationSettingsData } from '../data/profileData';
+import {
+  createCurrentUserRecord,
+  getCurrentUserRecord,
+  removeLegacyEmbeddedFields,
+  updateCurrentUserRecord,
+  upsertCurrentUserRecord,
+} from './database/userService';
+import {
+  listGoals,
+  migrateLegacyGoals,
+} from './database/goalService';
+import { deleteAllOwnedDocuments } from './database/databaseService';
 
-// Helper — returns the Firestore document ref for a given user
-const profileDoc = (uid) => doc(db, 'users', uid);
-
-// ─── Default empty profile for a brand-new user ────────────────────────────────
 export function buildDefaultProfile(user) {
   return {
     name:               user?.displayName || 'Learner',
@@ -66,88 +65,86 @@ export const defaultAiSettings = {
   lastUpdated:               'Just initialized',
 };
 
-// ─── Reset Profile to Clean State ──────────────────────────────────────────────
-export async function resetProfileToClean(uid, user) {
-  const cleanProfile = buildDefaultProfile(user);
-  const cleanData = {
-    profile:         cleanProfile,
-    goals:           [],
-    activityHistory: {}, // LeetCode style: { "YYYY-MM-DD": { total: 3, completed: 1, percentage: 33 } }
-    aiSettings:      defaultAiSettings,
-    notifications:   notificationSettingsData,
-    createdAt:       serverTimestamp(),
-    updatedAt:       serverTimestamp(),
+function cleanUserDocument(user) {
+  return {
+    profile: buildDefaultProfile(user),
+    aiSettings: defaultAiSettings,
+    notifications: notificationSettingsData,
   };
-  await setDoc(profileDoc(uid), cleanData);
-  return cleanData;
 }
 
-// ─── Seed Defaults ─────────────────────────────────────────────────────────────
-export async function initializeProfile(uid, user) {
-  const snap = await getDoc(profileDoc(uid));
-  if (!snap.exists()) {
-    await resetProfileToClean(uid, user);
+export async function initializeProfile(user) {
+  const existing = await getCurrentUserRecord();
+  if (!existing) {
+    await createCurrentUserRecord(cleanUserDocument(user));
   }
 }
 
-// ─── Fetch Everything ──────────────────────────────────────────────────────────
-export async function fetchProfileData(uid, user) {
-  const snap = await getDoc(profileDoc(uid));
-  if (snap.exists()) {
-    const data = snap.data();
-    // Auto-sanitize: If this document contains leftover seed demo data, reset to clean
-    if (data.profile?.level === 12 || data.profile?.totalXp === 2350 || data.profile?.overallGrowthScore === 84) {
-      return await resetProfileToClean(uid, user);
-    }
-    return {
-      ...data,
-      activityHistory: data.activityHistory || {},
-    };
+export async function fetchProfileData(user) {
+  let userRecord = await getCurrentUserRecord();
+
+  if (!userRecord) {
+    await createCurrentUserRecord(cleanUserDocument(user));
+    userRecord = await getCurrentUserRecord();
   }
-  // First login — seed and return clean defaults
-  return await resetProfileToClean(uid, user);
-}
 
-// ─── Profile Info ──────────────────────────────────────────────────────────────
-export async function saveProfile(uid, profileData) {
-  await updateDoc(profileDoc(uid), {
-    profile:    profileData,
-    updatedAt:  serverTimestamp(),
-  });
-}
+  // One-time compatibility migration from the old giant users/{uid}.goals array.
+  // The authenticated Firebase user is used by the goal service; no caller-provided uid is trusted.
+  const legacyGoals = Array.isArray(userRecord?.goals) ? userRecord.goals : [];
+  const legacyActivityHistory = userRecord?.activityHistory || {};
 
-// ─── Goals & Monthly Activity History ───────────────────────────────────────────
-export async function saveGoals(uid, goals, activityHistory = null) {
-  const updatePayload = {
+  if (legacyGoals.length > 0) {
+    await migrateLegacyGoals(legacyGoals);
+    await removeLegacyEmbeddedFields();
+    userRecord = await getCurrentUserRecord();
+  }
+
+  const goals = await listGoals();
+
+  return {
+    profile: userRecord?.profile || buildDefaultProfile(user),
     goals,
-    updatedAt: serverTimestamp(),
+    // Kept in memory for backwards-compatible charts during migration.
+    // Long-term activity should be derived from goal/task/session records, not embedded in users/{uid}.
+    activityHistory: legacyActivityHistory,
+    aiSettings: userRecord?.aiSettings || defaultAiSettings,
+    notifications: userRecord?.notifications || notificationSettingsData,
   };
-  if (activityHistory) {
-    updatePayload.activityHistory = activityHistory;
-  }
-  await updateDoc(profileDoc(uid), updatePayload);
 }
 
-// ─── Activity History Direct Save ──────────────────────────────────────────────
-export async function saveActivityHistory(uid, activityHistory) {
-  await updateDoc(profileDoc(uid), {
-    activityHistory,
-    updatedAt: serverTimestamp(),
-  });
+export async function saveProfile(profileData) {
+  await upsertCurrentUserRecord({ profile: profileData });
 }
 
-// ─── AI Personalization ────────────────────────────────────────────────────────
-export async function saveAiSettings(uid, aiSettings) {
-  await updateDoc(profileDoc(uid), {
-    aiSettings,
-    updatedAt: serverTimestamp(),
-  });
+export async function saveAiSettings(aiSettings) {
+  await upsertCurrentUserRecord({ aiSettings });
 }
 
-// ─── Notification Settings ─────────────────────────────────────────────────────
-export async function saveNotifications(uid, notifications) {
-  await updateDoc(profileDoc(uid), {
-    notifications,
-    updatedAt: serverTimestamp(),
-  });
+export async function saveNotifications(notifications) {
+  await upsertCurrentUserRecord({ notifications });
+}
+
+export async function resetProfileToClean(user) {
+  // Reset all current scalable user-owned collections while preserving the Firebase Auth account.
+  await Promise.all([
+    deleteAllOwnedDocuments('tasks'),
+    deleteAllOwnedDocuments('goals'),
+    deleteAllOwnedDocuments('schedules'),
+    deleteAllOwnedDocuments('habits'),
+    deleteAllOwnedDocuments('english_sessions'),
+  ]);
+
+  const clean = cleanUserDocument(user);
+  await createCurrentUserRecord(clean);
+
+  return {
+    ...clean,
+    goals: [],
+    activityHistory: {},
+  };
+}
+
+// Transitional helper for callers that need to ensure schemaVersion/userId exist.
+export async function touchCurrentUserRecord() {
+  await updateCurrentUserRecord({ schemaVersion: 2 });
 }
