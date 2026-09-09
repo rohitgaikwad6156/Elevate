@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout';
 import Dashboard from './pages/Dashboard';
 import DailyGoals from './pages/DailyGoals';
+import AIGenerateMyDay from './pages/AIGenerateMyDay';
 import EnglishCoach from './pages/EnglishCoach';
 import PublicSpeaking from './pages/PublicSpeaking';
 import BodyLanguage from './pages/BodyLanguage';
@@ -57,22 +58,24 @@ function App() {
       {/* Protected — all app routes */}
       <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
         <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard"      element={<Dashboard />} />
-        <Route path="daily-goals"    element={<DailyGoals />} />
-        <Route path="english-coach"  element={<EnglishCoach />} />
+        <Route path="dashboard"       element={<Dashboard />} />
+        <Route path="daily-goals"     element={<DailyGoals />} />
+        <Route path="generate-my-day" element={<AIGenerateMyDay />} />
+        <Route path="english-coach"   element={<EnglishCoach />} />
+
+        {/* Existing secondary sections — preserved */}
         <Route path="public-speaking" element={<PublicSpeaking />} />
-        <Route path="body-language"  element={<BodyLanguage />} />
-        <Route path="fitness"        element={<Fitness />} />
-        <Route path="interview-prep" element={<InterviewPrep />} />
-        <Route path="learning-hub"   element={<LearningHub />} />
-        <Route path="progress"       element={<Progress />} />
-        <Route path="achievements"   element={<Achievements />} />
-        <Route path="profile"        element={<Profile />} />
-        <Route path="*"              element={<Navigate to="/dashboard" replace />} />
+        <Route path="body-language"   element={<BodyLanguage />} />
+        <Route path="fitness"         element={<Fitness />} />
+        <Route path="interview-prep"  element={<InterviewPrep />} />
+        <Route path="learning-hub"    element={<LearningHub />} />
+        <Route path="progress"        element={<Progress />} />
+        <Route path="achievements"    element={<Achievements />} />
+        <Route path="profile"         element={<Profile />} />
+        <Route path="*"               element={<Navigate to="/dashboard" replace />} />
       </Route>
     </Routes>
   );
 }
 
 export default App;
-

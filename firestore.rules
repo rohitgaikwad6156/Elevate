@@ -1,0 +1,72 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function ownsNewDocument() {
+      return signedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    function ownsExistingDocument() {
+      return signedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    function preservesOwnership() {
+      return request.resource.data.userId == resource.data.userId
+        && request.resource.data.userId == request.auth.uid;
+    }
+
+    match /users/{userId} {
+      allow create: if signedIn()
+        && userId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+
+      // Path ownership is enough here and also allows a brand-new user to
+      // check whether users/{theirUid} exists before creating it.
+      allow get, delete: if signedIn() && userId == request.auth.uid;
+      allow list: if false;
+
+      allow update: if signedIn()
+        && userId == request.auth.uid
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+    }
+
+    match /tasks/{documentId} {
+      allow create: if ownsNewDocument();
+      allow read, delete: if ownsExistingDocument();
+      allow update: if ownsExistingDocument() && preservesOwnership();
+    }
+
+    match /goals/{documentId} {
+      allow create: if ownsNewDocument();
+      allow read, delete: if ownsExistingDocument();
+      allow update: if ownsExistingDocument() && preservesOwnership();
+    }
+
+    match /schedules/{documentId} {
+      allow create: if ownsNewDocument();
+      allow read, delete: if ownsExistingDocument();
+      allow update: if ownsExistingDocument() && preservesOwnership();
+    }
+
+    match /habits/{documentId} {
+      allow create: if ownsNewDocument();
+      allow read, delete: if ownsExistingDocument();
+      allow update: if ownsExistingDocument() && preservesOwnership();
+    }
+
+    match /english_sessions/{documentId} {
+      allow create: if ownsNewDocument();
+      allow read, delete: if ownsExistingDocument();
+      allow update: if ownsExistingDocument() && preservesOwnership();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

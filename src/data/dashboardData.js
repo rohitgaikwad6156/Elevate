@@ -77,26 +77,30 @@ export const streakData = {
 export const quickActions = [
   {
     id: 1,
-    label: 'Add Goal',
-    icon: 'Plus',
+    label: 'Daily Goals & Tasks',
+    icon: 'Target',
     color: 'primary',
+    path: '/daily-goals',
   },
   {
     id: 2,
-    label: 'Practice English',
-    icon: 'Languages',
+    label: 'Generate My Day',
+    icon: 'Sparkles',
     color: 'info',
+    path: '/generate-my-day',
   },
   {
     id: 3,
-    label: 'Start Workout',
-    icon: 'Dumbbell',
+    label: 'English Coach',
+    icon: 'Languages',
     color: 'success',
+    path: '/english-coach',
   },
   {
     id: 4,
-    label: 'Practice Speaking',
-    icon: 'Mic',
+    label: 'Fitness',
+    icon: 'Dumbbell',
     color: 'warning',
+    path: '/fitness',
   },
 ];
