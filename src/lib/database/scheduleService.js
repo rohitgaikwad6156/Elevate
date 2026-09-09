@@ -1,17 +1,9 @@
 import {
-  doc,
-  getDoc,
-  serverTimestamp,
-  setDoc,
-} from 'firebase/firestore';
-import { db } from '../firebase';
-import {
   createOwnedDocument,
   deleteOwnedDocument,
   getAuthenticatedIdentity,
   getOwnedDocument,
   listOwnedDocuments,
-  runDatabaseOperation,
   stripProtectedFields,
   updateOwnedDocument,
 } from './databaseService';
@@ -23,11 +15,13 @@ function normalizeSchedule(schedule = {}) {
     throw new Error('Schedule date is required.');
   }
 
+  const safeSchedule = stripProtectedFields(schedule);
+
   return {
+    ...safeSchedule,
     date: schedule.date,
     tasks: Array.isArray(schedule.tasks) ? schedule.tasks : [],
     generatedByAI: Boolean(schedule.generatedByAI),
-    ...stripProtectedFields(schedule),
   };
 }
 
@@ -45,43 +39,29 @@ export async function listSchedules() {
 }
 
 export async function getScheduleForDate(date) {
-  return runDatabaseOperation('load daily schedule', async () => {
-    const { userId } = getAuthenticatedIdentity();
-    const ref = doc(db, COLLECTION, `${userId}_${date}`);
-    const snapshot = await getDoc(ref);
-
-    if (!snapshot.exists()) return null;
-    const data = snapshot.data();
-    if (data.userId !== userId) return null;
-    return { id: snapshot.id, ...data };
-  });
+  const schedules = await listOwnedDocuments(COLLECTION);
+  return schedules.find((schedule) => schedule.date === date) || null;
 }
 
 export async function saveScheduleForDate(date, schedule = {}) {
-  return runDatabaseOperation('save daily schedule', async () => {
-    const { userId } = getAuthenticatedIdentity();
-    const ref = doc(db, COLLECTION, `${userId}_${date}`);
-    const existing = await getDoc(ref);
-    const safeSchedule = normalizeSchedule({ ...schedule, date });
+  const { userId } = getAuthenticatedIdentity();
+  const safeSchedule = normalizeSchedule({ ...schedule, date });
+  const existing = await getScheduleForDate(date);
 
-    await setDoc(
-      ref,
-      {
-        ...safeSchedule,
-        userId,
-        generatedByAI: Boolean(schedule.generatedByAI),
-        updatedAt: serverTimestamp(),
-        ...(existing.exists() ? {} : { createdAt: serverTimestamp() }),
-      },
-      { merge: true }
-    );
+  if (existing) {
+    await updateOwnedDocument(COLLECTION, existing.id, safeSchedule);
+    return { id: existing.id, ...safeSchedule, userId };
+  }
 
-    return { id: ref.id, ...safeSchedule, userId };
-  });
+  return createOwnedDocument(
+    COLLECTION,
+    safeSchedule,
+    { id: `${userId}_${date}` }
+  );
 }
 
 export function updateSchedule(scheduleId, changes) {
-  return updateOwnedDocument(COLLECTION, scheduleId, changes);
+  return updateOwnedDocument(COLLECTION, scheduleId, normalizeSchedule({ ...changes, date: changes.date }));
 }
 
 export function deleteSchedule(scheduleId) {
