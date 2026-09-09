@@ -128,7 +128,6 @@ export function useTasks() {
       )));
       console.error('Failed to change task status:', err);
       setError(err.message || 'Unable to update task status. Please try again.');
-      throw err;
     } finally {
       setBusyTaskId(null);
     }
