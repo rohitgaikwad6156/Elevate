@@ -72,17 +72,20 @@ export function deleteGoal(goalId) {
 }
 
 export async function migrateLegacyGoals(legacyGoals = []) {
-  if (!Array.isArray(legacyGoals) || legacyGoals.length === 0) return [];
+  if (!Array.isArray(legacyGoals) || legacyGoals.length === 0) return listGoals();
 
   const existing = await listGoals();
-  if (existing.length > 0) return existing;
+  const existingIds = new Set(existing.map((goal) => String(goal.id)));
 
-  const migrated = [];
   for (const legacyGoal of legacyGoals) {
     const preferredId = legacyGoal.id ? String(legacyGoal.id) : undefined;
-    migrated.push(
-      await createGoal(legacyGoal, preferredId ? { id: preferredId } : undefined)
+    if (preferredId && existingIds.has(preferredId)) continue;
+
+    const created = await createGoal(
+      legacyGoal,
+      preferredId ? { id: preferredId } : undefined
     );
+    existingIds.add(String(created.id));
   }
 
   return listGoals();
