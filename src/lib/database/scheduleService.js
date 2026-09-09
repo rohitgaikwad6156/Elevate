@@ -1,9 +1,18 @@
 import {
+  collection,
+  getDocs,
+  limit,
+  query,
+  where,
+} from 'firebase/firestore';
+import { db } from '../firebase';
+import {
   createOwnedDocument,
   deleteOwnedDocument,
   getAuthenticatedIdentity,
   getOwnedDocument,
   listOwnedDocuments,
+  runDatabaseOperation,
   stripProtectedFields,
   updateOwnedDocument,
 } from './databaseService';
@@ -39,8 +48,19 @@ export async function listSchedules() {
 }
 
 export async function getScheduleForDate(date) {
-  const schedules = await listOwnedDocuments(COLLECTION);
-  return schedules.find((schedule) => schedule.date === date) || null;
+  return runDatabaseOperation('load daily schedule', async () => {
+    const { userId } = getAuthenticatedIdentity();
+    const scheduleQuery = query(
+      collection(db, COLLECTION),
+      where('userId', '==', userId),
+      where('date', '==', date),
+      limit(1)
+    );
+    const snapshot = await getDocs(scheduleQuery);
+    if (snapshot.empty) return null;
+    const item = snapshot.docs[0];
+    return { id: item.id, ...item.data() };
+  });
 }
 
 export async function saveScheduleForDate(date, schedule = {}) {
