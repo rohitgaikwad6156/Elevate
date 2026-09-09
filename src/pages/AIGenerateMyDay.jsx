@@ -11,9 +11,12 @@ import {
   ArrowRight,
   Lightbulb,
 } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
 import { useProfile } from '../hooks/useProfile';
 import { getLocalIsoDate } from '../lib/dateUtils';
+import {
+  getScheduleForDate,
+  saveScheduleForDate,
+} from '../lib/database/scheduleService';
 import styles from './AIGenerateMyDay.module.css';
 
 const BLOCKS = [
@@ -75,10 +78,36 @@ function buildDayPlan(goals) {
   return plan;
 }
 
+function serializePlan(plan) {
+  return plan.flatMap((block) =>
+    block.items.map((item) => ({
+      ...item,
+      blockId: block.id,
+      blockLabel: block.label,
+      startTime: block.time,
+    }))
+  );
+}
+
+function restorePlan(schedule) {
+  const scheduledTasks = Array.isArray(schedule?.tasks) ? schedule.tasks : [];
+  if (scheduledTasks.length === 0) return [];
+
+  return BLOCKS.map((block) => ({
+    ...block,
+    items: scheduledTasks
+      .filter((task) => task.blockId === block.id)
+      .map(({ blockId, blockLabel, startTime, ...task }) => task),
+  }));
+}
+
 export default function AIGenerateMyDay() {
-  const { user } = useAuth();
   const { goals, loading } = useProfile();
   const today = useMemo(() => getLocalIsoDate(), []);
+  const [plan, setPlan] = useState([]);
+  const [scheduleLoading, setScheduleLoading] = useState(true);
+  const [savingSchedule, setSavingSchedule] = useState(false);
+  const [scheduleError, setScheduleError] = useState('');
 
   const todayGoals = useMemo(() => {
     return (goals || []).filter((goal) => {
@@ -94,28 +123,47 @@ export default function AIGenerateMyDay() {
     [todayGoals]
   );
 
-  const storageKey = user?.uid ? `elevate_generated_day_${user.uid}_${today}` : null;
-  const [plan, setPlan] = useState([]);
-
   useEffect(() => {
-    if (!storageKey) return;
-    try {
-      const saved = localStorage.getItem(storageKey);
-      if (saved) setPlan(JSON.parse(saved));
-    } catch (error) {
-      console.debug('Could not restore generated day plan:', error);
-    }
-  }, [storageKey]);
+    let cancelled = false;
+    setScheduleLoading(true);
+    setScheduleError('');
 
-  const handleGenerate = () => {
+    getScheduleForDate(today)
+      .then((savedSchedule) => {
+        if (!cancelled && savedSchedule) {
+          setPlan(restorePlan(savedSchedule));
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          console.error('Could not restore generated day schedule:', error);
+          setScheduleError(error.message || 'Could not load your saved schedule.');
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setScheduleLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [today]);
+
+  const handleGenerate = async () => {
     const nextPlan = buildDayPlan(pendingGoals);
     setPlan(nextPlan);
-    if (storageKey) {
-      try {
-        localStorage.setItem(storageKey, JSON.stringify(nextPlan));
-      } catch (error) {
-        console.debug('Could not save generated day plan:', error);
-      }
+    setSavingSchedule(true);
+    setScheduleError('');
+
+    try {
+      await saveScheduleForDate(today, {
+        tasks: serializePlan(nextPlan),
+        generatedByAI: true,
+        source: 'elevate-goals',
+      });
+    } catch (error) {
+      console.error('Could not save generated day schedule:', error);
+      setScheduleError(error.message || 'Your plan was generated but could not be saved.');
+    } finally {
+      setSavingSchedule(false);
     }
   };
 
@@ -124,6 +172,7 @@ export default function AIGenerateMyDay() {
     0
   );
   const totalItems = plan.reduce((sum, block) => sum + block.items.length, 0);
+  const busy = loading || scheduleLoading || savingSchedule;
 
   return (
     <div className={styles.page}>
@@ -142,12 +191,22 @@ export default function AIGenerateMyDay() {
           type="button"
           className={styles.generateBtn}
           onClick={handleGenerate}
-          disabled={loading}
+          disabled={busy}
         >
           <Sparkles size={16} />
-          {plan.length > 0 ? 'Regenerate My Day' : 'Generate My Day'}
+          {savingSchedule ? 'Saving Plan…' : plan.length > 0 ? 'Regenerate My Day' : 'Generate My Day'}
         </button>
       </div>
+
+      {scheduleError && (
+        <div className={styles.readyCard} role="alert">
+          <Lightbulb size={20} />
+          <div>
+            <h3>Schedule sync issue</h3>
+            <p>{scheduleError}</p>
+          </div>
+        </div>
+      )}
 
       <div className={styles.summaryGrid}>
         <div className={styles.summaryCard}>
@@ -191,7 +250,7 @@ export default function AIGenerateMyDay() {
         </div>
       )}
 
-      {plan.length === 0 && pendingGoals.length > 0 && (
+      {plan.length === 0 && pendingGoals.length > 0 && !scheduleLoading && (
         <div className={styles.readyCard}>
           <Lightbulb size={22} />
           <div>
@@ -210,7 +269,7 @@ export default function AIGenerateMyDay() {
               <h3>Today's Focus Plan</h3>
               <p>{totalItems} focused blocks built from your current ELEVATE data.</p>
             </div>
-            <button type="button" className={styles.secondaryBtn} onClick={handleGenerate}>
+            <button type="button" className={styles.secondaryBtn} onClick={handleGenerate} disabled={busy}>
               <RefreshCw size={14} />
               Refresh Plan
             </button>
